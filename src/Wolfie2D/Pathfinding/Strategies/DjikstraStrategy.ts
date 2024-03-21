@@ -30,7 +30,7 @@ export default class DjikstraPathStrat extends NavPathStrat {
 
 		// Add all parents along the path
 		let i = end;
-		while(parent[i] !== -1){
+		while(parent[i] !== -1) {
 			pathStack.push(this.mesh.graph.positions[parent[i]]);
 			i = parent[i];
 		}

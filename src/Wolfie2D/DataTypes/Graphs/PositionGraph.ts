@@ -82,7 +82,7 @@ export default class PositionGraph extends Graph implements DebugRenderable {
 	}
 
 	// @override
-	protected nodeToString(index: number): string {
+	public nodeToString(index: number): string {
 		return "Node " + index + " - " + this.positions[index].toString();
 	}
 

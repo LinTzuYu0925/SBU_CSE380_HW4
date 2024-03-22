@@ -4,7 +4,7 @@ import NavigationPath from "../../Wolfie2D/Pathfinding/NavigationPath";
 import NavPathStrat from "../../Wolfie2D/Pathfinding/Strategies/NavigationStrategy";
 import GraphUtils from "../../Wolfie2D/Utils/GraphUtils";
 
-// TODO Construct a NavigationPath object using A*
+// TODO DONE Construct a NavigationPath object using A*
 
 /**
  * The AstarStrategy class is an extension of the abstract NavPathStrategy class. For our navigation system, you can

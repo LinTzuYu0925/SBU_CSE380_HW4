@@ -130,7 +130,7 @@ export default class GraphUtils {
 				edge_pointer = edge_pointer.next;
 			}
 		}
-
+		return came_from;
 		// throw "The " + g.nodeToString(end) + " is not able to reach from the " + g.nodeToString(start);
 	}
 }

@@ -23,8 +23,12 @@ export default class UseHealthpack extends NPCAction {
     }
 
     public performAction(target: Battler): void {
+        if (this.actor.position.distanceTo(target.position) > 32)
+            return;
+
         let health_pack: Healthpack = this.actor.inventory.find((item: Item) => { return item instanceof Healthpack; }) as Healthpack;
         while (health_pack) {
+            console.log(this.target.position + " cure by " + health_pack.health + " = " + target.health)
             target.health += health_pack.health;
 
             this.actor.inventory.remove(health_pack.id);
@@ -34,5 +38,4 @@ export default class UseHealthpack extends NPCAction {
 
         this.finished();
     }
-
 }

@@ -6,7 +6,7 @@ import Idle from "../NPCActions/GotoAction";
 import { TargetExists } from "../NPCStatuses/TargetExists";
 import BasicFinder from "../../../GameSystems/Searching/BasicFinder";
 import { ClosestPositioned } from "../../../GameSystems/Searching/HW4Reducers";
-import { BattlerActiveFilter, BattlerGroupFilter, BattlerHealthFilter, ItemFilter, RangeFilter, VisibleItemFilter } from "../../../GameSystems/Searching/HW4Filters";
+import { AllyFilter, BattlerActiveFilter, BattlerGroupFilter, BattlerHealthFilter, ItemFilter, RangeFilter, VisibleItemFilter } from "../../../GameSystems/Searching/HW4Filters";
 import PickupItem from "../NPCActions/PickupItem";
 import UseHealthpack from "../NPCActions/UseHealthpack";
 import Healthpack from "../../../GameSystems/ItemSystem/Items/Healthpack";
@@ -50,6 +50,8 @@ export default class HealerBehavior extends NPCBehavior  {
         // TODO configure the rest of the healer actions
         // Pickup healthpack action
         let pickup_hpack = new PickupItem(this, this.owner);
+        pickup_hpack.targets = scene.getHealthpacks();
+        pickup_hpack.targetFinder = new BasicFinder<Item>(ClosestPositioned(this.owner), ItemFilter(Healthpack), VisibleItemFilter());
         pickup_hpack.addPrecondition(HealerStatuses.HPACK_EXISTS);
         pickup_hpack.addEffect(HealerStatuses.HAS_HPACK);
         pickup_hpack.cost = 1;
@@ -57,8 +59,10 @@ export default class HealerBehavior extends NPCBehavior  {
 
         // Use healthpack action
         let use_hpack = new UseHealthpack(this, this.owner);
-        pickup_hpack.addPrecondition(HealerStatuses.ALLY_EXISTS);
-        pickup_hpack.addPrecondition(HealerStatuses.HAS_HPACK);
+        use_hpack.targets = scene.getBattlers();
+        use_hpack.targetFinder = new BasicFinder<Battler>(ClosestPositioned(this.owner), BattlerActiveFilter(), BattlerGroupFilter([owner.battleGroup]), BattlerHealthFilter(0, 10));
+        use_hpack.addPrecondition(HealerStatuses.ALLY_EXISTS);
+        use_hpack.addPrecondition(HealerStatuses.HAS_HPACK);
         use_hpack.addEffect(HealerStatuses.GOAL);
         use_hpack.cost = 5;
         this.addState(HealerActions.USE_HPACK, use_hpack);
